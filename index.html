@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>معرفی من </title>
+    <!-- فونت وزیر (بدون نیاز به اینترنت، از فونت سیستمی استفاده می‌کنیم) -->
+    <style>
+        /* ===== متغیرها و ریست ===== */
+        :root {
+            --primary: #6c63ff;
+            --secondary: #ff6584;
+            --bg: #0f0f1a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text: #f0f0f0;
+            --text-muted: #b0b0b0;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            --radius: 24px;
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --font: 'Vazir', 'Tahoma', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(108, 99, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 101, 132, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font);
+            color: var(--text);
+            padding: 20px;
+            direction: rtl;
+        }
+
+        /* ===== کارت اصلی (Glassmorphism + 3D Tilt) ===== */
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 480px;
+            padding: 40px 30px 35px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease forwards;
+            transition: transform 0.3s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 35px 60px -15px rgba(108, 99, 255, 0.3);
+        }
+
+        /* پس‌زمینه متحرک (دایره‌های نورانی) */
+        .profile-card::before,
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.25;
+            z-index: 0;
+            animation: floatBg 6s infinite alternate ease-in-out;
+        }
+        .profile-card::before {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: -100px;
+            right: -100px;
+        }
+        .profile-card::after {
+            width: 250px;
+            height: 250px;
+            background: var(--secondary);
+            bottom: -80px;
+            left: -80px;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatBg {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -20px) scale(1.2); }
+        }
+
+        /* ===== بخش تصویر پروفایل ===== */
+        .avatar-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 40px rgba(108, 99, 255, 0.25);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .avatar-wrapper:hover {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--bg);
+            display: block;
+            background: #2a2a3e; /* fallback */
+        }
+
+        /* ساخت تصویر پروفایل با CSS Gradient (placeholder زیبا) */
+        .avatar {
+            background: radial-gradient(circle at 30% 30%, #6c63ff, #2a2a3e 70%);
+            position: relative;
+        }
+        .avatar::after {
+            content: '👤';
+            position: absolute;
+            font-size: 3.5rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.6;
+            color: white;
+        }
+
+        /* ===== نام و عنوان ===== */
+        .name {
+            position: relative;
+            z-index: 1;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f0f0f0 0%, #c0bfff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .tagline {
+            position: relative;
+            z-index: 1;
+            font-size: 1rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.06);
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        /* ===== بیوگرافی ===== */
+        .bio {
+            position: relative;
+            z-index: 1;
+            color: #d0d0e0;
+            line-height: 1.8;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            padding: 0 6px;
+            opacity: 0.9;
+        }
+
+        /* ===== شبکه‌های اجتماعی (دکمه‌های تصویری) ===== */
+        .social-title {
+            position: relative;
+            z-index: 1;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .social-links {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 60px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            min-width: 90px;
+            flex: 0 1 auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 12px 28px -8px rgba(108, 99, 255, 0.3);
+        }
+
+        .social-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* آیکون‌های SVG توکار (بدون نیاز به فونت خارجی) */
+        .social-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            transition: 0.3s;
+        }
+
+        .social-btn:hover svg {
+            transform: rotate(8deg) scale(1.1);
+        }
+
+        /* رنگ‌های اختصاصی هر شبکه (هوور) */
+        .social-btn.telegram:hover {
+            border-color: #0088cc;
+            box-shadow: 0 0 30px rgba(0, 136, 204, 0.25);
+        }
+        .social-btn.instagram:hover {
+            border-color: #e1306c;
+            box-shadow: 0 0 30px rgba(225, 48, 108, 0.25);
+        }
+        .social-btn.soroush:hover {
+            border-color: #00a99d;
+            box-shadow: 0 0 30px rgba(0, 169, 157, 0.25);
+        }
+        .social-btn.rubika:hover {
+            border-color: #f57c00;
+            box-shadow: 0 0 30px rgba(245, 124, 0, 0.25);
+        }
+        .social-btn.shad:hover {
+            border-color: #4caf50;
+            box-shadow: 0 0 30px rgba(76, 175, 80, 0.25);
+        }
+
+        /* ===== انیمیشن‌های ورود ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* تاخیر برای المان‌های داخل کارت (با شمارنده) */
+        .profile-card > * {
+            animation: fadeInUp 0.7s ease forwards;
+            opacity: 0;
+        }
+        .profile-card > *:nth-child(1) { animation-delay: 0.1s; }
+        .profile-card > *:nth-child(2) { animation-delay: 0.2s; }
+        .profile-card > *:nth-child(3) { animation-delay: 0.3s; }
+        .profile-card > *:nth-child(4) { animation-delay: 0.4s; }
+        .profile-card .social-title { animation-delay: 0.5s; }
+        .profile-card .social-links { animation-delay: 0.6s; }
+
+        /* ===== خط جداساز ظریف ===== */
+        .divider {
+            position: relative;
+            z-index: 1;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+            margin: 20px auto 18px;
+            border-radius: 4px;
+            opacity: 0.5;
+        }
+
+        /* ===== ریسپانسیو ===== */
+        @media (max-width: 500px) {
+            .profile-card {
+                padding: 30px 18px 28px;
+            }
+            .name {
+                font-size: 1.6rem;
+            }
+            .social-btn {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+                min-width: 70px;
+            }
+            .social-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+            .avatar-wrapper {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        /* ===== اسکرول‌بار ظریف ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <!-- تصویر پروفایل -->
+    <div class="avatar-wrapper">
+    <img class="avatar" src="https://uploadkon.ir/uploads/dc1e13_26IMG-20260513-134257-206.jpg" alt="عکس پروفایل">
+</div>
+
+        <!-- نام -->
+        <h1 class="name">سینا زارع </h1>
+
+        <!-- عنوان -->
+        <div class="tagline">✨ توسعه‌دهنده و طراح خلاق</div>
+
+        <!-- بیوگرافی کوتاه -->
+        <p class="bio">           👋 سلام! من سینا هستم، عاشق کدنویسی، طراحی تجربه کاربری و خلق چیزهای جدید. 
+            اینجا می‌توانید با من در شبکه‌های اجتماعی مختلف ارتباط برقرار کنید.
+        </p>
+
+        <div class="divider"></div>
+
+        <!-- عنوان بخش شبکه‌ها -->
+        <div class="social-title">🌐 مرا در شبکه‌های زیر دنبال کنید</div>
+
+        <!-- دکمه‌های شبکه‌های اجتماعی (با آیکون SVG توکار) -->
+        <div class="social-links">
+            <!-- تلگرام -->
+            <a href="https://t.me/sinazare13" class="social-btn telegram" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.804 7.167c.21.063.367.21.43.42.063.21.063.42 0 .63l-1.955 7.56c-.105.42-.42.63-.735.63-.21 0-.42-.105-.63-.315l-2.1-1.575-.945.945c-.21.21-.42.315-.63.315l.21-1.26 3.57-3.15c.21-.21.21-.42 0-.63-.21-.21-.42-.21-.63 0l-4.2 2.1-1.47-.315c-.42-.105-.63-.42-.63-.735 0-.21.105-.42.315-.63l7.14-2.94c.21-.105.42-.105.63 0z"/>
+                </svg>
+                تلگرام
+            </a>
+
+            <!-- اینستاگرام -->
+            <a href="https://instagram.com/sinazare_sao" class="social-btn instagram" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.332.014 7.052.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                </svg>
+                اینستاگرام
+            </a>
+
+            <!-- سروش -->
+            <a href="https://sapp.ir/sinazare133" class="social-btn soroush" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <!-- سروش: یک طرح ساده از پیام‌رسان -->
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M8 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                سروش
+            </a>
+
+            <!-- روبیکا -->
+            <a href="https://rubika.ir/sinazare_11228" class="social-btn rubika" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <!-- روبیکا: مکعب روبیک ساده -->
+                    <rect x="2" y="2" width="20" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                    <line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.8"/>
+                    <line x1="2" y1="14" x2="22" y2="14" stroke="currentColor" stroke-width="1.8"/>
+                    <line x1="10" y1="2" x2="10" y2="22" stroke="currentColor" stroke-width="1.8"/>
+                    <line x1="14" y1="2" x2="14" y2="22" stroke="currentColor" stroke-width="1.8"/>
+                </svg>
+                روبیکا
+            </a>
+
+            <!-- شاد -->
+            <a href="https://shad.ir/sinazare13" class="social-btn shad" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <!-- شاد: شکلک خندان ساده -->
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                    <circle cx="9" cy="10" r="1.2" fill="currentColor"/>
+                    <circle cx="15" cy="10" r="1.2" fill="currentColor"/>
+                    <path d="M8 14c1.5 2 4.5 2 6 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                شاد
+            </a>
+        </div>
+
+        <!-- توضیح نهایی (اختیاری) -->
+        <div style="margin-top: 24px; font-size: 0.75rem; color: #7a7a8a; position: relative; z-index: 1;">
+            💬 برای ارتباط سریع، روی هر کدام کلیک کنید
+        </div>
+    </div>
+</body>
+</html>
